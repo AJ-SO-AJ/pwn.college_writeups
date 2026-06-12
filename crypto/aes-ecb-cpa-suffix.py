@@ -3,6 +3,7 @@
 # Recover some parts of end of flag -> build new codebook with additional prefix.
 # So now we have a program that allows us to encrypt chosen plaintext, but we can only view the flag from the end with len x
 
+# One faster, slightly improper solution:
 from pwn import *
 import string
 
@@ -33,3 +34,31 @@ for i in range(1, 64):
             break
 
 print(known)
+
+#------------------------------#
+# A slightly slower, but more accurate solution:
+from pwn import *
+import string
+
+p = process("/challenge/run")
+
+codebook = {}
+
+charset = string.ascii_letters + string.digits + string.punctuation
+flag = ""
+
+for i in range(1, 60):
+    for c in charset:
+        p.sendlineafter("Choice? ", b"1")
+        p.sendlineafter("Data? ", str(c + flag).encode())
+        cipher = p.recvline().decode().strip().split("Result: ")[1]
+        codebook[cipher] = c
+
+    p.sendlineafter("Choice? ", b"2")
+    p.sendlineafter("Length? ", str(i).encode())
+    res = p.recvline().decode().strip().split("Result: ")[1]
+    flag = codebook[res] + flag
+    codebook.clear()
+    print(flag)
+
+print(flag)
