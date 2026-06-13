@@ -10,7 +10,7 @@ charset = string.ascii_letters + string.digits + string.punctuation
 codebook = {}
 
 def get_result(data):
-    p.sendlineafter("Data? ", data.encode())
+    p.sendlineafter("Data? ", data)
 
     out = p.recvlines(1)[0]
     cipher = out.decode().split(" ")[1]
