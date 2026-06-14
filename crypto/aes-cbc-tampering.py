@@ -1,3 +1,8 @@
+# A dispatcher sends an encrypted message with AES-CBC. The message is "sleep"
+# The worker receives messages. The message can either be "sleep" or "flag!" (encrypted, encoded in hex, and concatenated to "TASK: ")
+# Upon receiving a "flag!" message, the worker prints out the flag.
+# We need to manipulate the IV so that D(C1) results in P1(flag!) instead of P1(sleep)
+
 from pwn import *
 from Crypto.Cipher import AES
 from Crypto.Util.strxor import strxor
