@@ -4,7 +4,6 @@
 # We need to manipulate the IV so that D(C1) results in P1(flag!) instead of P1(sleep)
 
 from pwn import *
-from Crypto.Cipher import AES
 from Crypto.Util.strxor import strxor
 from Crypto.Util.Padding import pad
 
