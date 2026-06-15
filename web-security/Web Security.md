@@ -20,12 +20,14 @@ Related: [[URL Encoding]], [[Shelling out]], [[HTTP Cookies]], [[netcat|nc]], [[
 
 # pwn.college Exercises
 #### Path traversal 1
+Server gives contents of local file whose path is specified in URL param
 Inject "../../flag" on /content/ so that the server reads that as path and gets us flag instead of index.html
-Problem: ../ -> goes back in the URL, not the. So we do [[URL Encoding]]. . = %2E, / = %2F
+Problem: ../ -> goes backward in path of the URL, not the command. So we do [[URL Encoding]]: . = %2E, / = %2F
 %2e%2e%2f%2e%2e%2fflag
 #### Path traversal 2
-Now the developer has made it so that it strips "./"s (removes them leading or trailing)
+Now the developer has made it so that it strips "./"s (removes the leading or trailing)
 #### Command Injection 1
+The server allows us to write an input, and executes a cmd for us.
 ls -l (input) -> input set to "; cat /flag" -> gets flag
 #### Command Injection 2
 Now the developer has made it so that we can't insert ; we can still pipe
